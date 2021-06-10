@@ -11,12 +11,17 @@
     "@material-ui/core": "4.11.4",
     "@material-ui/icons": "4.11.2",
     "axios": "0.21.1",
+    "file-saver": "2.0.5",
     "material-ui": "0.20.2",
+    "materialize": "1.0.0",
+    "materialize-css": "1.0.0",
     "miragejs": "0.1.41",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-router-dom": "5.2.0",
-    "react-scripts": "4.0.0"
+    "react-scripts": "4.0.0",
+    "react-scroll": "1.8.2",
+    "wikitooltip": "1.0.6"
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",

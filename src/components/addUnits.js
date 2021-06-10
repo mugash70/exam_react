@@ -7,77 +7,75 @@ import {
   CardActions,
   Button,
   Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
   FormControl,
   InputLabel,
-  Select
+  Select,
+  InputBase
 } from "@material-ui/core";
-import { AddIcon, Fab } from "@material-ui/icons";
-// import Fab from '@material-ui/icons'
+import { SearchIcon } from "@material-ui/icons";
+import "materialize-css/dist/css/materialize.min.css";
 import { getForUnits } from "../actions/add";
 class addUnits extends React.Component {
-  State: {
-    page: "",
-    setPage: "",
-    rowsPerPage: "",
-    setRowsPerPage: ""
-  };
-  createData(name, code, population, size) {
-    const density = population / size;
-    return { name, code, population, size, density };
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 0,
+      rowsPerPage: 10
+    };
+  }
+  createData(School, program) {
+    return { School, program };
   }
   rows = [
-    this.createData("India", "IN", 1324171354, 3287263),
-    this.createData("China", "CN", 1403500365, 9596961),
-    this.createData("Italy", "IT", 60483973, 301340),
-    this.createData("United States", "US", 327167434, 9833520),
-    this.createData("Canada", "CA", 37602103, 9984670),
-    this.createData("Australia", "AU", 25475400, 7692024),
-    this.createData("Germany", "DE", 83019200, 357578),
-    this.createData("Ireland", "IE", 4857000, 70273),
-    this.createData("Mexico", "MX", 126577691, 1972550),
-    this.createData("Japan", "JP", 126317000, 377973),
-    this.createData("France", "FR", 67022000, 640679),
-    this.createData("United Kingdom", "GB", 67545757, 242495),
-    this.createData("Russia", "RU", 146793744, 17098246),
-    this.createData("Nigeria", "NG", 200962417, 923768),
-    this.createData("Brazil", "BR", 210147125, 8515767)
+    this.createData("India", "IN", "vduvgsdvctsdg"),
+    this.createData("China", "CN"),
+    this.createData("Italy", "IT"),
+    this.createData("United States", "US"),
+    this.createData("Canada", "CA"),
+    this.createData("Australia", "AU"),
+    this.createData("Germany", "DE"),
+    this.createData("Ireland", "IE"),
+    this.createData("Mexico", "MX"),
+    this.createData("Japan", "JP"),
+    this.createData("France", "FR"),
+    this.createData("United Kingdom", "GB"),
+    this.createData("Russia", "RU"),
+    this.createData("Nigeria", "NG"),
+    this.createData("Brazil", "BR")
   ];
   columns = [
-    { id: "school", label: "School", minWidth: 170 },
-    { id: "program", label: "Program", minWidth: 100 },
     {
-      id: "year",
-      label: "Year",
+      id: "school",
+      label: "School",
       minWidth: 170,
-      align: "right",
       format: (value) => value.toLocaleString("en-US")
-    }
+    },
+    { id: "program", label: "Program", minWidth: 100 }
   ];
 
-  handleChangePage = (event, newPage) => {
+  handleChangePage = (newPage) => {
     this.setPage(newPage);
   };
-  handleChangeRowsPerPage = (event) => {
-    this.setRowsPerPage(+event.target.value);
+  handleChangeRowsPerPage = (e) => {
+    // this.setRowsPerPage(event.target.value);
+    this.setState({ [e.target.name]: e.target.value });
     this.setPage(0);
   };
+
+  handleChange = (e) => {
+    // this.setRowsPerPage(event.target.value);
+    this.setState({ [e.target.name]: e.target.value });
+    this.setPage(0);
+  };
+
   ///
   componentDidMount() {
     console.log(getForUnits());
   }
+
+  //add
   setOpen = () => {};
-  setAge = () => {};
-  handleChange = (event) => {
-    this.setAge(Number(event.target.value) || "");
-  };
+  setPage = () => {};
 
   handleClickOpen = () => {
     this.setOpen(true);
@@ -86,140 +84,161 @@ class addUnits extends React.Component {
   handleClose = () => {
     this.setOpen(false);
   };
-
+  handleSub = () => {
+    //
+    var { school, program, year, sem, units } = 3;
+    this.AddC();
+  };
+  AddC = () => {
+    this.props.history.push(`/`);
+  };
   render() {
+    console.log(this.row);
     var ListZoteProgram = (
       <React.Fragment>
-        <div>
-          <Paper>
-            <TableContainer>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    {this.columns.map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ minWidth: column.minWidth }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.rows
-                    .slice(
-                      this.page * this.rowsPerPage,
-                      this.page * this.rowsPerPage + this.rowsPerPage
-                    )
-                    .map((row) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={this.row.code}
-                        >
-                          {this.columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={this.rows.length}
-              rowsPerPage={this.rowsPerPage}
-              page={this.page}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-            />
-          </Paper>
-        </div>
+        <table className="striped">
+          <thead>
+            <tr>
+              <th>School</th>
+              <th>Program</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>pure and applied</td>
+              <td>cs</td>
+
+              <Button
+                size="small"
+                color="primary"
+                onClick="f"
+                style={{ marginLeft: "50%" }}
+                variant="contained"
+              >
+                select
+              </Button>
+            </tr>
+          </tbody>
+        </table>
       </React.Fragment>
     );
 
     return (
       <div>
-        {/* add Course */}
-        <br />
-        <br />
+        <form onSubmit={this.handleSub}>
+          {/* add Course */}
+          <br />
+          <br />
 
-        <Card
-          variant="outlined"
-          style={{
-            position: "relative",
-            maxWidth: 1045,
-            marginLeft: "16%"
-          }}
-        >
-          <CardContent>
-            <h2>Add units</h2>
-            <Typography color="textSecondary" gutterBottom></Typography>
-            <Typography variant="h5" component="h2">
-              <Grid>{ListZoteProgram}</Grid>
-              <br />
-              <Grid>
-                <TextField
-                  id="outlined-basic"
-                  label="Units in the program"
-                  variant="outlined"
-                  name="program"
-                  style={{ width: "50%" }}
-                />
-              </Grid>
-              {/* <AddIcon />
-              <Fab
-               size="small" 
-               color="secondary" 
-               aria-label="add" ><AddIcon/></Fab> */}
-              <br />
-              <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-age-native-simple">
-                  Semester
-                </InputLabel>
-                <Select
-                  native
-                  name="semester"
-                  onChange={this.handleChange}
-                  label="semester"
-                  inputProps={{
-                    name: "semester",
-                    id: "outlined-age-native-simple"
+          <Card
+            variant="outlined"
+            style={{
+              position: "relative",
+              maxWidth: 1045,
+              marginLeft: "16%"
+            }}
+          >
+            <CardContent>
+              <h4>Add units</h4>
+              <Typography color="textSecondary" gutterBottom></Typography>
+              <Typography variant="h5" component="h2">
+                <Grid>{ListZoteProgram}</Grid>
+
+                <br />
+                <FormControl variant="outlined">
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    Semester
+                  </InputLabel>
+
+                  <Select
+                    native
+                    name="semester"
+                    onChange={this.handleChange}
+                    label="semester"
+                    inputProps={{
+                      name: "semester",
+                      id: "outlined-age-native-simple"
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={10}>semester 1</option>
+                    <option value={20}>semester 2</option>
+                    <option value={30}>semester 3</option>
+                  </Select>
+                </FormControl>
+                <br />
+                <br />
+                <FormControl variant="outlined">
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    year
+                  </InputLabel>
+
+                  <Select
+                    native
+                    name="semester"
+                    onChange={this.handleChange}
+                    label="semester"
+                    inputProps={{
+                      name: "semester",
+                      id: "outlined-age-native-simple"
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={10}>year 1</option>
+                    <option value={20}>year 2</option>
+                    <option value={30}>year 3</option>
+                  </Select>
+                </FormControl>
+                <br />
+                <br />
+                <Grid>
+                  <TextField
+                    id="outlined-basic"
+                    label="Units in the program"
+                    variant="outlined"
+                    name="program"
+                    style={{ width: "50%" }}
+                  />
+                  <Button class="btn-floating " style={{ marginLeft: "20px" }}>
+                    <i class="material-icons">add</i>
+                  </Button>
+                </Grid>
+                <div
+                  className="card"
+                  style={{
+                    float: "right",
+                    marginTop: "-250px",
+                    marginLeft: "260px"
                   }}
                 >
-                  <option aria-label="None" value="" />
-                  <option value={10}>semester 1</option>
-                  <option value={20}>semester 2</option>
-                  <option value={30}>semester 3</option>
-                </Select>
-              </FormControl>
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              size="small"
-              color="primary"
-              type="submit"
-              style={{ marginLeft: "50%" }}
-              variant="contained"
-            >
-              SUBMIT
-            </Button>
-          </CardActions>
-        </Card>
+                  <div className="card-content"></div>
+                  <div className="card-tabs">
+                    <ul className="tabs tabs-fixed-width">
+                      <li className="tab">
+                        <a href="#test4">Units entered</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="card-content grey lighten-4">
+                    <div id="test4">unit_data</div>
+                  </div>
+                </div>
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                type="submit"
+                style={{ marginLeft: "50%" }}
+                variant="contained"
+              >
+                SUBMIT
+              </Button>
+            </CardActions>
+          </Card>
+        </form>
       </div>
     );
   }
