@@ -10,7 +10,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Link } from "react-router-dom";
-
+import { programs } from "../test";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -57,6 +57,7 @@ const program = () => {
   useEffect(() => {
     getProgramData();
   }, []);
+
   return (
     <div className="App" style={{ maxWidth: 1054, marginLeft: "300px" }}>
       <h1>program</h1>
@@ -72,29 +73,30 @@ const program = () => {
           <TableHead>
             <TableRow>
               <StyledTableCell>Program Name</StyledTableCell>
-              <StyledTableCell align="right">select</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Program.filter((program) => {
-              if (search == "") {
-                return program;
-              } else if (
-                program.name.toLowerCase().includes(search.toLowerCase())
-              ) {
-                return program;
-              }
-            }).map((program) => {
-              return (
-                <StyledTableRow key={program.id}>
-                  <StyledTableCell component="th" scope="row">
-                    <Link to="/set" onClick={handleClick()}>
-                      {program.name}
-                    </Link>
-                  </StyledTableCell>
-                </StyledTableRow>
-              );
-            })}
+            {programs
+              .filter((program) => {
+                if (search == "") {
+                  return program;
+                } else if (
+                  program.name.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return program;
+                }
+              })
+              .map((program) => {
+                return (
+                  <StyledTableRow key={program.id}>
+                    <StyledTableCell component="th" scope="row">
+                      <Link to="/set" onClick={handleClick()}>
+                        {program.name}
+                      </Link>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

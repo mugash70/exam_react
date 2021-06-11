@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
@@ -9,7 +10,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-
+import { schooldata } from "../test";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -36,7 +37,7 @@ const useStyles = makeStyles({
 
 const schools = () => {
   const classes = useStyles();
-  const [School, setSchool] = useState([]);
+  const [school, setSchool] = useState([]);
   const [search, setSearch] = useState("");
 
   const getSchoolData = async () => {
@@ -73,26 +74,25 @@ const schools = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {School.filter((schools) => {
-              if (search == "") {
-                return schools;
-              } else if (
-                schools.name.toLowerCase().includes(search.toLowerCase())
-              ) {
-                return schools;
-              }
-            }).map((schools) => {
-              return (
-                <StyledTableRow key={schools.id}>
-                  <StyledTableCell component="th" scope="row">
-                    {schools.name}
-                  </StyledTableCell>
-                  {/* <StyledTableCell align="right">
-                      {schools.price}
-                    </StyledTableCell> */}
-                </StyledTableRow>
-              );
-            })}
+            {schooldata
+              .filter((data) => {
+                if (search == "") {
+                  return data;
+                } else if (
+                  data.name.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return data;
+                }
+              })
+              .map((data) => {
+                return (
+                  <StyledTableRow key={data.id}>
+                    <StyledTableCell component="th" scope="row">
+                      <Link to="/programs">{data.name}</Link>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
